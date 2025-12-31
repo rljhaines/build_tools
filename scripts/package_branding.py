@@ -4,7 +4,7 @@
 import package_utils as utils
 
 onlyoffice = True
-company_name = "ONLYOFFICE"
+company_name = "OnlyOffice"
 company_name_l = company_name.lower()
 publisher_name = "Ascensio System SIA"
 cert_name = "Ascensio System SIA"
@@ -20,11 +20,11 @@ if utils.is_windows():
   desktop_changes_dir = "desktop-apps/win-linux/package/windows/update/changes"
 
 if utils.is_macos():
-  desktop_package_name = "ONLYOFFICE"
+  desktop_package_name = "OnlyOffice"
   desktop_build_dir = "desktop-apps/macos"
   desktop_branding_dir = "desktop-apps/macos"
   desktop_updates_dir = "build/update"
-  desktop_changes_dir = "ONLYOFFICE/update/updates/ONLYOFFICE/changes"
+  desktop_changes_dir = "OnlyOffice/update/updates/OnlyOffice/changes"
   sparkle_base_url = "https://download.onlyoffice.com/install/desktop/editors/mac"
 
 builder_product_name = "Document Builder"

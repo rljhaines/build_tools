@@ -172,7 +172,7 @@ def make_wheel():
   utils.copy_dir("../onlyoffice/build_tools/packaging/docbuilder/resources", "python")
   utils.copy_dir(builder_dir, "python/docbuilder/lib", True, True)
 
-  desktop_dir = "../desktop-apps/macos/build/ONLYOFFICE.app/Contents/Resources/converter"
+  desktop_dir = "../desktop-apps/macos/build/OnlyOffice.app/Contents/Resources/converter"
   if utils.is_macos() and "desktop" in common.targets and utils.is_exist(desktop_dir):
     for f in utils.glob_path(desktop_dir + "/*.dylib") + [desktop_dir + "/x2t"]:
       utils.copy_file(f, builder_dir + "/" + utils.get_basename(f))

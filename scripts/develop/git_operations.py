@@ -25,7 +25,7 @@ class GitOperations:
     """Class to handle git clone and branch creation using existing base module methods."""
     
     def __init__(self, branding: str = "onlyoffice", base_branch: str = "develop", 
-                 branding_url: str = "ONLYOFFICE/onlyoffice.git", branch_name: str = None,
+                 branding_url: str = "OnlyOffice/onlyoffice.git", branch_name: str = None,
                  modules: str = "core desktop builder server mobile"):
         """
         Initialize GitOperations with branding configuration and configure repositories.
@@ -33,7 +33,7 @@ class GitOperations:
         Args:
             branding: Branding name (default: onlyoffice)
             base_branch: Base branch to work from (default: develop)
-            branding_url: Relative path from git host base (default: ONLYOFFICE/onlyoffice.git)
+            branding_url: Relative path from git host base (default: OnlyOffice/onlyoffice.git)
             branch_name: Name of the branch to create (required for branch operations)
             modules: Modules to include (default: core desktop builder server mobile)
         """
@@ -310,7 +310,7 @@ def main():
     branch_parser.add_argument('branch_name', help='Name of the branch to create')
     branch_parser.add_argument('--base-branch', default='develop', help='Base branch to work from (default: develop)')
     branch_parser.add_argument('--branding', default='onlyoffice', help='Branding name')
-    branch_parser.add_argument('--branding-url', default='ONLYOFFICE/onlyoffice.git', help='Relative path from git host base (default: ONLYOFFICE/onlyoffice.git)')
+    branch_parser.add_argument('--branding-url', default='OnlyOffice/onlyoffice.git', help='Relative path from git host base (default: OnlyOffice/onlyoffice.git)')
     branch_parser.add_argument('--modules', default='core desktop builder server mobile', help='Modules to include')
     
     # Remove branch command (configure, clone and remove branch from all repositories)
@@ -318,7 +318,7 @@ def main():
     remove_parser.add_argument('branch_name', help='Name of the branch to remove')
     remove_parser.add_argument('--base-branch', default='develop', help='Base branch to work from (default: develop)')
     remove_parser.add_argument('--branding', default='onlyoffice', help='Branding name')
-    remove_parser.add_argument('--branding-url', default='ONLYOFFICE/onlyoffice.git', help='Relative path from git host base (default: ONLYOFFICE/onlyoffice.git)')
+    remove_parser.add_argument('--branding-url', default='OnlyOffice/onlyoffice.git', help='Relative path from git host base (default: OnlyOffice/onlyoffice.git)')
     remove_parser.add_argument('--modules', default='core desktop builder server mobile', help='Modules to include')
     remove_parser.add_argument('--force', action='store_true', help='Force delete the branch (equivalent to git branch -D)')
     

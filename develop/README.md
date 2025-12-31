@@ -37,7 +37,7 @@ use the following commands:
 ### Clone development environment to work dir
 
 ```bash
-git clone https://github.com/ONLYOFFICE/build_tools.git
+git clone https://github.com/rljhaines/build_tools.git
 ```
 
 ### Modify Docker Images
@@ -60,14 +60,14 @@ docker build --no-cache -t documentserver-develop .
 
 Clone development modules to the work dir
 
-* `sdkjs` repo is located [here](https://github.com/ONLYOFFICE/sdkjs/)
-* `web-apps` repo is located [here](https://github.com/ONLYOFFICE/web-apps/)
-* `server` repo is located [here](https://github.com/ONLYOFFICE/server/)
+* `sdkjs` repo is located [here](https://github.com/rljhaines/sdkjs/)
+* `web-apps` repo is located [here](https://github.com/rljhaines/web-apps/)
+* `server` repo is located [here](https://github.com/rljhaines/server/)
 
 ```bash
-git clone https://github.com/ONLYOFFICE/sdkjs.git
-git clone https://github.com/ONLYOFFICE/web-apps.git
-git clone https://github.com/ONLYOFFICE/server.git
+git clone https://github.com/rljhaines/sdkjs.git
+git clone https://github.com/rljhaines/web-apps.git
+git clone https://github.com/rljhaines/server.git
 ```
 
 ## Start server with external folders
@@ -81,7 +81,7 @@ The folders `server` is optional
 **Note**: Run command with the current working directory
 containing `sdkjs`, `web-apps`...
 
-**Note**: ONLYOFFICE server uses port 80.
+**Note**: OnlyOffice server uses port 80.
 Look for another application using port 80 and stop it
 
 **Note**: Server start with `sdkjs` and `web-apps` takes 15 minutes
@@ -210,7 +210,7 @@ node_modules
 docker run -i -t -p 80:80 --restart=always -e ALLOW_PRIVATE_IP_ADDRESS=true `
     -v $pwd/sdkjs:/var/www/onlyoffice/documentserver/sdkjs -v $pwd/web-apps:/var/www/onlyoffice/documentserver/web-apps `
     -v $pwd/onlyoffice:/var/www/onlyoffice/documentserver/onlyoffice -v $pwd/sdkjs-ooxml:/var/www/onlyoffice/documentserver/sdkjs-ooxml -v $pwd/sdkjs-forms:/var/www/onlyoffice/documentserver/sdkjs-forms -v $pwd/web-apps-mobile:/var/www/onlyoffice/documentserver/web-apps-mobile `
-    documentserver-develop args --branding onlyoffice --branding-url 'https://github.com/ONLYOFFICE/onlyoffice.git' --siteUrl localhost
+    documentserver-develop args --branding onlyoffice --branding-url 'https://github.com/rljhaines/onlyoffice.git' --siteUrl localhost
 ```
 
 ### docker run on Linux or macOS with branding
@@ -219,5 +219,5 @@ docker run -i -t -p 80:80 --restart=always -e ALLOW_PRIVATE_IP_ADDRESS=true `
 docker run -i -t -p 80:80 --restart=always -e ALLOW_PRIVATE_IP_ADDRESS=true \
     -v $(pwd)/sdkjs:/var/www/onlyoffice/documentserver/sdkjs -v $(pwd)/web-apps:/var/www/onlyoffice/documentserver/web-apps \
     -v $(pwd)/onlyoffice:/var/www/onlyoffice/documentserver/onlyoffice -v $(pwd)/sdkjs-ooxml:/var/www/onlyoffice/documentserver/sdkjs-ooxml -v $(pwd)/sdkjs-forms:/var/www/onlyoffice/documentserver/sdkjs-forms -v $(pwd)/web-apps-mobile:/var/www/onlyoffice/documentserver/web-apps-mobile \
-    documentserver-develop args --branding onlyoffice --branding-url 'https://github.com/ONLYOFFICE/onlyoffice.git' --siteUrl localhost
+    documentserver-develop args --branding onlyoffice --branding-url 'https://github.com/rljhaines/onlyoffice.git' --siteUrl localhost
 ```

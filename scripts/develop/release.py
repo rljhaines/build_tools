@@ -10,7 +10,7 @@ import config
 def protect_brunch(branch, repo, strict = False):
   team = '' if strict else 'dep-application-development-leads'
   command = 'echo {"required_status_checks": null,"enforce_admins":true,"required_pull_request_reviews": null,"restrictions": {"users":[],"teams":["'
-  command += team + '"]}} | gh api -X PUT repos/ONLYOFFICE/' + repo + '/branches/' + branch + '/protection --input -'
+  command += team + '"]}} | gh api -X PUT repos/OnlyOffice/' + repo + '/branches/' + branch + '/protection --input -'
   result = base.run_command(command)
   if ('' != result['stderr']):
     print(result['stderr'])
@@ -27,7 +27,7 @@ if ("windows" == platform):
 if (dependence.check_gh() != True or dependence.check_gh_auth() != True):
   sys.exit(0)
 
-base.cmd_in_dir('../../', 'python', ['configure.py', '--branding', 'onlyoffice', '--branding-url', 'https://github.com/ONLYOFFICE/onlyoffice.git', '--branch', branch_from, '--module', 'core desktop builder server mobile', '--update', '1', '--update-light', '1', '--clean', '0'])
+base.cmd_in_dir('../../', 'python', ['configure.py', '--branding', 'onlyoffice', '--branding-url', 'https://github.com/rljhaines/onlyoffice.git', '--branch', branch_from, '--module', 'core desktop builder server mobile', '--update', '1', '--update-light', '1', '--clean', '0'])
 
 # parse configuration
 config.parse()

@@ -41,9 +41,9 @@ base.create_dir(temp_dir)
 directory_fonts = directory_x2t + "/sdkjs/common"
 directory_fonts_local = ""
 if "windows" == base.host_platform():
-  directory_fonts_local = os.getenv("LOCALAPPDATA") + "/ONLYOFFICE/docbuilder"
+  directory_fonts_local = os.getenv("LOCALAPPDATA") + "/OnlyOffice/docbuilder"
 else:
-  directory_fonts_local = os.path.expanduser('~') + "/.local/share/ONLYOFFICE/docbuilder"
+  directory_fonts_local = os.path.expanduser('~') + "/.local/share/OnlyOffice/docbuilder"
 
 if not base.is_file(directory_fonts + "/AllFonts.js") and not base.is_file(directory_fonts_local + "/AllFonts.js"):
   base.cmd_in_dir(directory_x2t, "docbuilder", [], True)

@@ -226,7 +226,7 @@ def delete_dir_with_access_error(path):
         os.chmod(path, stat.S_IWUSR)
         func(path)
       return
-    elif (0 != path.find("\\\\?\\")):
+    elif (0 != path.find("\\\\?\\?")):
       # abspath not work with long names
       full_path = path
       drive_pos = full_path.find(":")
@@ -235,7 +235,7 @@ def delete_dir_with_access_error(path):
       else:
         full_path = full_path
       if (len(full_path) >= 260):
-        full_path = "\\\\?\\" + full_path
+        full_path = "\\\\?\\?" + full_path
       if not os.access(full_path, os.W_OK):
         os.chmod(full_path, stat.S_IWUSR)
       func(full_path)
@@ -381,7 +381,7 @@ def cmd(prog, args=[], is_no_errors=False):
   else:
     command = prog
     for arg in args:
-      command += (" \"" + arg.replace('\"', '\\\"') + "\"")
+      command += (" \"" + arg.replace('\"', '\\"') + "\"")
     ret = subprocess.call(command, stderr=subprocess.STDOUT, shell=True)
   if ret != 0 and True != is_no_errors:
     sys.exit("Error (" + prog + "): " + str(ret))
@@ -417,7 +417,7 @@ def cmd_exe(prog, args, is_no_errors=False):
   else:
     command = prog
     for arg in args:
-      command += (" \"" + arg.replace('\"', '\\\"') + "\"")
+      command += (" \"" + arg.replace('\"', '\\"') + "\"")
     process = subprocess.Popen(command, stderr=subprocess.STDOUT, shell=True, env=env_dir)
     ret = process.wait()
   if ret != 0 and True != is_no_errors:
@@ -530,6 +530,7 @@ def run_process_in_dir(directory, args=[]):
   os.chdir(dir)
   run_process(args)
   os.chdir(cur_dir)
+  return
 
 # nodejs ------------------------------------------------
 def run_nodejs(args=[]):
@@ -588,20 +589,20 @@ def git_is_ssh():
   if (git_protocol == "ssh"):
     return True
   origin = git_get_origin()
-  if (git_protocol == "auto") and (origin.find(":ONLYOFFICE/") != -1):
+  if (git_protocol == "auto") and (origin.find(":rljhaines/") != -1):
     return True
   return False
 
 def get_ssh_base_url():
   cur_origin = git_get_origin()
-  ind = cur_origin.find(":ONLYOFFICE/")
+  ind = cur_origin.find(":rljhaines/")
   if (ind == -1):
-    return "git@github.com:ONLYOFFICE/"
-  return cur_origin[:ind+12]
+    return "git@github.com:rljhaines/"
+  return cur_origin[:ind+10]
 
 def git_update(repo, is_no_errors=False, is_current_dir=False, git_owner=""):
   print("[git] update: " + repo)
-  owner = git_owner if git_owner else "ONLYOFFICE"
+  owner = git_owner if git_owner else "rljhaines"
   url = git_get_base_url() + owner + "/" + repo + ".git"
   if git_is_ssh():
     url = get_ssh_base_url() + repo + ".git"
@@ -618,7 +619,7 @@ def git_update(repo, is_no_errors=False, is_current_dir=False, git_owner=""):
   os.chdir(folder)
   cmd("git", ["fetch"], False if ("1" != config.option("update-light")) else True)
   if is_not_exit or ("1" != config.option("update-light")):
-    retCheckout = cmd("git", ["checkout", "-f", config.option("branch")], True)
+    retCheckout = cmd("git", ["checkout", "-f", config.option("branch")])
     if (retCheckout != 0):
       print("branch does not exist...")
       print("switching to master...")
@@ -674,7 +675,7 @@ def get_branding_repositories(checker):
 
 def create_pull_request(branches_to, repo, is_no_errors=False, is_current_dir=False):
   print("[git] create pull request: " + repo)
-  url = git_get_base_url() + "ONLYOFFICE/" + repo + ".git"
+  url = git_get_base_url() + "rljhaines/" + repo + ".git"
   if git_is_ssh():
     url = get_ssh_base_url() + repo + ".git"
   folder = get_script_dir() + "/../../" + repo
@@ -843,7 +844,7 @@ def qt_config_platform_addon(platform):
   elif (0 == platform.find("ios")):
     config_addon += (" " + config.option("config_addon_ios"))
   elif (0 == platform.find("android")):
-    config_addon += (" " + config.option("config_addon_android"))
+    config_addon += (" " + config.option("config_addon_android")
   if (config_addon == " "):
     config_addon = ""
   return config_addon
@@ -898,11 +899,11 @@ def qt_config_as_param(value):
   qt_version = qt_version_decimal()
   ret_params = []
   if (66 > qt_version):
-    ret_params.append("CONFIG+=" + value)
+    ret_params.append("CONFIG+" + value)
   else:
     params = value.split()
     for name in params:
-      ret_params.append("CONFIG+=" + name)
+      ret_params.append("CONFIG+" + name)
   return ret_params
 
 def qt_copy_lib(lib, dir):
@@ -1073,8 +1074,10 @@ def generate_plist(file, platform):
   name = name.replace(".framework", "")
 
   content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-  content += "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n"
-  content += "<plist version=\"1.0\">\n"
+  content += "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+"
+  content += "<plist version=\"1.0\">
+"
   content += "<dict>\n"
   content += "\t<key>CFBundleExecutable</key>\n"
   content += ("\t<string>" + name + "</string>\n")
@@ -1109,18 +1112,19 @@ def generate_plist(file, platform):
 
 def generate_xcprivacy(file, platform):
   content = \
-"""<?xml version="1.0" encoding="UTF-8"?>
+"""
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-\t<key>NSPrivacyTracking</key>
-\t<false/>
-\t<key>NSPrivacyCollectedDataTypes</key>
-\t<array/>
-\t<key>NSPrivacyTrackingDomains</key>
-\t<array/>
-\t<key>NSPrivacyAccessedAPITypes</key>
-\t<array/>
+	<key>NSPrivacyTracking</key>
+	<false/>
+	<key>NSPrivacyCollectedDataTypes</key>
+	<array/>
+	<key>NSPrivacyTrackingDomains</key>
+	<array/>
+	<key>NSPrivacyAccessedAPITypes</key>
+	<array/>
 </dict>
 </plist>"""
   fileDst = os.path.join(file, "PrivacyInfo.xcprivacy")
@@ -1431,7 +1435,7 @@ def mac_correct_rpath_docbuilder(dir):
   mac_correct_rpath_binary("./docbuilder", mac_icu_libs + ["UnicodeConverter", "kernel", "kernel_network", "graphics", "PdfFile", "XpsFile", "OFDFile", "DjVuFile", "HtmlFile2", "Fb2File", "EpubFile", "IWorkFile", "HWPFile", "doctrenderer", "DocxRenderer"])
   mac_correct_rpath_library("docbuilder.c", mac_icu_libs + ["UnicodeConverter", "kernel", "kernel_network", "graphics", "doctrenderer", "PdfFile", "XpsFile", "OFDFile", "DjVuFile", "DocxRenderer"])
 
-  mac_add_loader_path_to_rpath(["icuuc." + icu_ver, "UnicodeConverter", "kernel", "kernel_network", "graphics", "doctrenderer", "PdfFile", "XpsFile", "OFDFile", "DjVuFile", "DocxRenderer", "docbuilder.c"])
+  mac_add_loader_path_to_rpath(["icuuc."+icu_ver, "UnicodeConverter", "kernel", "kernel_network", "graphics", "doctrenderer", "PdfFile", "XpsFile", "OFDFile", "DjVuFile", "DocxRenderer", "docbuilder.c"])
   os.chdir(cur_dir)
   return
 
@@ -1472,22 +1476,22 @@ def linux_set_origin_rpath_libraries(dir, libs):
   cur_dir = os.getcwd()
   os.chdir(dir)
   for lib in libs:
-    cmd(tools_dir + "patchelf", ["--set-rpath", "\\$ORIGIN", "lib" + lib], True)
+    cmd(tools_dir + "patchelf", ["--set-rpath", "\$ORIGIN", "lib" + lib], True)
   os.chdir(cur_dir)
   return
 
 def linux_correct_rpath_docbuilder(dir):
-  linux_set_origin_rpath_libraries(dir, ["docbuilder.jni.so", "docbuilder.c.so", "icuuc.so." + icu_ver, "doctrenderer.so", "graphics.so", "kernel.so", "kernel_network.so", "UnicodeConverter.so", "PdfFile.so", "XpsFile.so", "OFDFile.so", "DjVuFile.so", "DocxRenderer.so"])
+  linux_set_origin_rpath_libraries(dir, ["docbuilder.jni.so", "docbuilder.c.so", "icuuc.so."+icu_ver, "doctrenderer.so", "graphics.so", "kernel.so", "kernel_network.so", "UnicodeConverter.so", "PdfFile.so", "XpsFile.so", "OFDFile.so", "DjVuFile.so", "DocxRenderer.so"])
   return
 
-def common_check_version(name, good_version, clean_func):
+def common_check_version(name, good_version, clear_func):
   version_good = name + "_version_" + good_version
   version_path = "./" + name + ".data"
   version = readFile(version_path)
   if (version != version_good):
     delete_file(version_path)
     writeFile(version_path, version_good)
-    clean_func()
+    clear_func()
   return
 
 def copy_sdkjs_plugin(src_dir, dst_dir, name, is_name_as_guid=False, is_desktop_local=False):
@@ -1511,7 +1515,7 @@ def copy_sdkjs_plugin(src_dir, dst_dir, name, is_name_as_guid=False, is_desktop_
   if not is_file(src_dir_path + "/config.json"):
     return
   config_content = readFile(src_dir_path + "/config.json")
-  index_start = config_content.find("\"asc.{")
+  index_start = config_content.find("\"asc.{')
   index_start += 5
   index_end = config_content.find("}", index_start)
   index_end += 1
@@ -1736,7 +1740,7 @@ def clone_marketplace_plugin(out_dir, is_name_as_guid=False, is_replace_paths=Fa
   dst_dir_name = "marketplace"
   if is_name_as_guid:
     config_content = readFile(out_dir + "/onlyoffice.github.io/store/plugin/config.json")
-    index_start = config_content.find("\"asc.{")
+    index_start = config_content.find("\"asc.{')
     index_start += 5
     index_end = config_content.find("}", index_start)
     index_end += 1
@@ -1818,9 +1822,9 @@ def convert_ios_framework_to_xcframework_folder(folder, libs):
 
 def change_elf_rpath(path, origin):
   # excludes ---
-  if (-1 != path.find("libicudata.so." + icu_ver)):
+  if (-1 != path.find("libicudata.so."+icu_ver)):
     return
-  # ------------
+  # -------------
   tools_dir = get_script_dir() + "/../tools/linux/elf/"
   result_obj = run_command(tools_dir + "readelf -d '" + path + "' | grep R*PATH")
   result = result_obj["stdout"]
@@ -1969,8 +1973,8 @@ def check_python():
   directory_bin = __file__script__path__ + "/../tools/linux/python3/bin"
 
   if not is_dir(directory + "/python3"):
-    download('https://github.com/ONLYOFFICE-data/build_tools_data/raw/refs/heads/master/python/python3.tar.gz', directory + "/python3.tar.gz")
-    download('https://github.com/ONLYOFFICE-data/build_tools_data/raw/refs/heads/master/python/extract.sh', directory + "/extract.sh")
+    download('https://github.com/rljhaines-data/build_tools_data/raw/refs/heads/master/python/python3.tar.gz', directory + "/python3.tar.gz")
+    download('https://github.com/rljhaines-data/build_tools_data/raw/refs/heads/master/python/extract.sh', directory + "/extract.sh")
     cmd_in_dir(directory, "chmod", ["+x", "./extract.sh"])
     cmd_in_dir(directory, "./extract.sh")    
   directory_bin = directory_bin.replace(" ", "\\ ")

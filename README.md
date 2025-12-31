@@ -4,9 +4,9 @@
 
 **build_tools** allow you to automatically get and install all the components
 necessary for the compilation process, all the dependencies required for the
-**ONLYOFFICE Document Server**, **Document Builder** and **Desktop Editors**
+**OnlyOffice Document Server**, **Document Builder** and **Desktop Editors**
  correct work, as well as to get the latest version of
-**ONLYOFFICE products** source code and build all their components.
+**OnlyOffice products** source code and build all their components.
 
 **Important!**  We can only guarantee the correct work of the products built
 from the `master` branch.
@@ -23,12 +23,12 @@ You might need to install **Python**, depending on your version of Ubuntu:
 sudo apt-get install -y python
 ```
 
-### Building ONLYOFFICE products source code
+### Building OnlyOffice products source code
 
 1. Clone the build_tools repository:
 
     ```bash
-    git clone https://github.com/ONLYOFFICE/build_tools.git
+    git clone https://github.com/rljhaines/build_tools.git
     ```
 
 2. Go to the `build_tools/tools/linux` directory:
@@ -43,12 +43,12 @@ sudo apt-get install -y python
     ./automate.py
     ```
 
-If you run the script without any parameters this allows to build **ONLYOFFICE
+If you run the script without any parameters this allows to build **OnlyOffice
 Document Server**, **Document Builder** and **Desktop Editors**.
 
 The result will be available in the `./out` directory.
 
-To build **ONLYOFFICE** products separately run the script with the parameter
+To build **OnlyOffice** products separately run the script with the parameter
 corresponding to the necessary product.
 
 It’s also possible to build several products at once as shown in the example
@@ -62,7 +62,7 @@ below.
 
 ### Using Docker
 
-You can also build all **ONLYOFFICE products** at once using Docker.
+You can also build all **OnlyOffice products** at once using Docker.
 Build the `onlyoffice-document-editors-builder` Docker image using the
 provided `Dockerfile` and run the corresponding Docker container.
 
@@ -74,7 +74,7 @@ docker run -v $PWD/out:/build_tools/out onlyoffice-document-editors-builder
 
 The result will be available in the `./out` directory.
 
-### Building and running ONLYOFFICE products separately
+### Building and running OnlyOffice products separately
 
 #### Document Builder
 
